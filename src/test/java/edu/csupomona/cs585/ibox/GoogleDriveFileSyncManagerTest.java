@@ -82,6 +82,8 @@ public class GoogleDriveFileSyncManagerTest {
 
 		googleDriveFileSyncManager.addFile(localFile);
 
+		verify(mockService).files();
+		verify(mock_files).insert(isA(File.class), isA(FileContent.class));
 		verify(mock_inserts).execute();
 
 		assertEquals("File ID: " + body.getId().trim(), outContent.toString().trim());
@@ -97,6 +99,7 @@ public class GoogleDriveFileSyncManagerTest {
 		when(mock_files.insert(Mockito.any(File.class), Mockito.any(FileContent.class))).thenReturn(mock_inserts);
 		when(mock_inserts.execute()).thenThrow(new IOException());
 
+		//times(1);
 		googleDriveFileSyncManager.addFile(localFile);
 
 	}
@@ -122,6 +125,7 @@ public class GoogleDriveFileSyncManagerTest {
 		googleDriveFileSyncManager.updateFile(localFile);
 		assertEquals("File ID: cs585", outContent.toString().trim());
 
+		times(1);
 		verify(mock_files).list();
 		verify(mock_lists).execute();
 		verify(mock_updates).execute();
@@ -169,6 +173,7 @@ public class GoogleDriveFileSyncManagerTest {
 
 		googleDriveFileSyncManager.updateFile(localFile);
 
+		times(1);
 		verify(mock_files).list();
 		verify(mock_lists).execute();
 		verify(mock_inserts).execute();
@@ -196,6 +201,7 @@ public class GoogleDriveFileSyncManagerTest {
 
 		googleDriveFileSyncManager.deleteFile(localFile);
 		
+		times(1);
 		verify(mock_files).list();
 		verify(mock_lists).execute();
 		verify(mock_deletes).execute();
@@ -219,6 +225,7 @@ public class GoogleDriveFileSyncManagerTest {
 
 		googleDriveFileSyncManager.deleteFile(localFile);
 		
+		times(1);
 		verify(mock_files).list();
 		verify(mock_lists).execute();
 		
@@ -242,6 +249,7 @@ public class GoogleDriveFileSyncManagerTest {
 
 		googleDriveFileSyncManager.deleteFile(localFile);
 
+		times(1);
 		verify(mock_files).list();
 		verify(mock_lists).execute();
 		
@@ -264,6 +272,8 @@ public class GoogleDriveFileSyncManagerTest {
 
 		String fileId = googleDriveFileSyncManager.getFileId(file.getTitle());
 
+		times(1);
+		verify(mockService).files();
 		verify(mock_files).list();
 		verify(mock_lists).execute();
 
@@ -289,6 +299,8 @@ public class GoogleDriveFileSyncManagerTest {
 
 		String fileId = googleDriveFileSyncManager.getFileId("title_null");
 
+		times(1);
+		verify(mockService).files();
 		verify(mock_files).list();
 		verify(mock_lists).execute();
 
@@ -306,6 +318,8 @@ public class GoogleDriveFileSyncManagerTest {
 
 		googleDriveFileSyncManager.getFileId("cs585");
 		
+		times(1);
+		verify(mockService).files();
 		verify(mock_files).list();
 		verify(mock_lists).execute();
 		
